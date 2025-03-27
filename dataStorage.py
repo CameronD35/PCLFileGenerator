@@ -14,17 +14,17 @@ def generatePCDFlatGeometry(width, height, resolution):
 
     storageArray = []
     
-    pointsPerRow = int(width / resolution)
+    pointsPerRow = int(width * resolution)
 
     # The distance between each point in the row dimension (x-axis)
     rowRatio = width / pointsPerRow
 
-    pointsPerColumn = int(height / resolution)
+    pointsPerColumn = int(height * resolution)
 
     # The distance between each point in the column dimension (z-axis)
     columnRatio = height / pointsPerColumn
 
-    pointsPerArea = int(height / resolution)
+    pointsPerArea = int(height * resolution)
 
     areaRatio = height / pointsPerColumn
 
@@ -98,7 +98,7 @@ def parseGeometryArray(geometryArray):
 # resolution - distance between points
 def createPCDFile(dimensions, resolution, filePath):
 
-    test = generatePCDFlatGeometry(5, 5, 1)
+    test = generatePCDFlatGeometry(5, 5, 4)
     setupPCDFile(filePath, test)
     parseGeometryArray(test)
     
