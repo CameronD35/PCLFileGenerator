@@ -1,6 +1,8 @@
-filePath = '/home/rsx25/Desktop/Data/testCube.pcd'
+filePath = '/Users/camiscool/Desktop/Software/PCLFileGenerator/legendary.pcd'
 
 contentString = ''
+
+time = 0
 
 # file = open(filePath, 'a')
 # content = 'test stuff'
@@ -11,6 +13,8 @@ contentString = ''
 # height - height of geometry
 # resolution - distance between points
 def generatePCDFlatGeometry(width, height, resolution):
+
+    global time
 
     storageArray = []
     
@@ -41,7 +45,9 @@ def generatePCDFlatGeometry(width, height, resolution):
 
                 zDistance = round((k * columnRatio), 5)
 
-                coordinateVector = (xDistance, yDistance, zDistance)
+                coordinateVector = (xDistance, yDistance, zDistance, time)
+
+                time += 0.01
                 
                 storageArray.append(coordinateVector)
 
@@ -59,19 +65,19 @@ def setupPCDFile(filePath, geometryArray):
         "z": [4, "F", 1]
     }
 
-    fields = "x y z"
-    size = "4 4 4"
-    typ = "F F F" 
-    count = "1 1 1"
+    fields = "x y z time"
+    size = "4 4 4 4"
+    dataType = "F F F F" 
+    count = "1 1 1 1"
     
-    width = arrLength**0.5
+    width = arrLength
     points = arrLength
 
-    height = arrLength**0.5
+    height = 1
 
     data = "ascii"
 
-    initialStr = f"{header}\n{version}\nFIELDS {fields}\nSIZE {size}\nTYPE {typ}\nCOUNT {count}\nWIDTH {width}\nHEIGHT {height}\nPOINTS {points}\nDATA {data}\n"
+    initialStr = f"{header}\n{version}\nFIELDS {fields}\nSIZE {size}\nTYPE {dataType}\nCOUNT {count}\nWIDTH {width}\nHEIGHT {height}\nPOINTS {points}\nDATA {data}\n"
 
     file = open(filePath, 'w')
     file.write(initialStr)
@@ -88,8 +94,9 @@ def parseGeometryArray(geometryArray):
         x = point[0]
         y = point[1]
         z = point[2]
+        time = point[3]
 
-        file.write(f"{x} {y} {z}\n")
+        file.write(f"{x} {y} {z} {time}\n")
 
     file.close()
 
